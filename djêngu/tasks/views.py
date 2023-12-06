@@ -28,7 +28,9 @@ def taskList(request):
         page = request.GET.get('page')
         tasks = paginator.get_page(page)
         if tasks_list:
-            do_send(request)
+            notDone = Task.objects.filter(user=request.user, done='doing')
+            if notDone:
+                do_send(request)
 
     return render(request, 'tasks/list.html', {'tasks': tasks})
 
